@@ -8,7 +8,7 @@ import Control.Lens (Lens, Lens', (%~), (&), (.~), (^.))
 import GHC.Generics (Generic)
 import GHC.Records (HasField (..))
 import GHC.TypeLits
-import Data.Generics.Product.Dot
+import Data.Generics.Product.Fields.Dot
 import Data.Tuple (swap)
 
 -- example taken from https://hackage.haskell.org/package/generic-lens-2.2.1.0/docs/Data-Generics-Product-Fields.html

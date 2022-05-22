@@ -20,7 +20,7 @@ category:           Data
 extra-source-files: CHANGELOG.md
 
 library
-    exposed-modules:  Data.Generics.Product.Dot
+    exposed-modules:  Data.Generics.Product.Fields.Dot
     build-depends:    base ^>=4.16.1.0,
                       lens,
                       generic-lens
@@ -31,7 +31,7 @@ test-suite generic-lens-dot-test
     default-language: GHC2021
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
-    main-is:          MyLibTest.hs
+    main-is:          tests.hs
     build-depends:    base ^>=4.16.1.0,
                       generic-lens-dot,
                       lens,
