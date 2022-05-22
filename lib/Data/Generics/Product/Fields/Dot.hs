@@ -24,6 +24,7 @@ newtype FieldLens s t (path :: [Symbol]) a b = FieldLens (Lens s t a b)
 pry :: FieldLens s t path a b -> Lens s t a b
 pry (FieldLens l) = l
 
+-- | A safer "Control.Lens.Unsound.lensProduct" which fails to compile if the focuses of the two lenses overlap. 
 pry2 :: NonOverlapping2 path1 path2 => FieldLens s s path1 a a -> FieldLens s s path2 b b -> Lens' s (a, b)
 pry2 (FieldLens l1) (FieldLens l2) = lensProduct l1 l2
 
