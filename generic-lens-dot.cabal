@@ -1,0 +1,38 @@
+cabal-version:      3.0
+name:               generic-lens-dot
+version:            0.1.0.0
+synopsis:
+
+-- A longer description of the package.
+-- description:
+homepage:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Daniel Diaz
+maintainer:         diaz.carrete@yahoo.es
+
+-- A copyright notice.
+-- copyright:
+category:           Data
+extra-source-files: CHANGELOG.md
+
+library
+    exposed-modules:  Data.Generics.Product.Dot
+    build-depends:    base ^>=4.16.1.0,
+                      lens,
+                      generic-lens
+    hs-source-dirs:   lib
+    default-language: GHC2021
+
+test-suite generic-lens-dot-test
+    default-language: GHC2021
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          MyLibTest.hs
+    build-depends:    base ^>=4.16.1.0,
+                      generic-lens-dot,
+                      lens,
+                      generic-lens
