@@ -5,6 +5,8 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE ImportQualifiedPost #-}
+{-# LANGUAGE FunctionalDependencies #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
 
 module Data.Generics.Product.Fields.Dot (FieldLens, pry, pry2, The, the) where
 
@@ -56,14 +58,29 @@ type family Append path t where
   Append '[] t = '[t]
   Append (head ': tail) t = head ': Append tail t
 
+-- type HasOptic :: (Type -> Type -> [Symbol] -> Type -> Type -> Type)  -> Symbol -> Type -> Type -> Type -> Type -> Constraint
+-- class HasOptic optic (field :: Symbol) s t a b | s field -> a, t field -> b, s field b -> t, t field a -> s, s -> optic, t -> optic where
+--   optic :: optic s t a b
+
+class HasField' optic x r a | x r -> a, r -> optic where
+  getField' :: r -> a
+
+instance (G.HasField (field :: Symbol) s t a b) => HasField' FieldLens field (The FieldLens s t) (FieldLens s t '[field] a b) where
+  getField' _ = FieldLens (G.field @field)
+
+
+instance (G.HasField (field :: Symbol) s t a b, HasField' o field (The o s t) (o s t '[field] a b)) => HasField field (The o s t) (o s t '[field] a b) where
+  getField = getField' @o @field
+
+
 -- This GHC.Records.HasField produces lenses, not values.
-instance (G.HasField (field :: Symbol) s t a b) => HasField field (The FieldLens s t) (FieldLens s t '[field] a b) where
-  getField _ = FieldLens (G.field @field)
+-- instance (G.HasField (field :: Symbol) s t a b) => HasField field (The FieldLens s t) (FieldLens s t '[field] a b) where
+--   getField _ = undefined
 
 instance (G.HasField (field :: Symbol) s t a b, path' ~ Append path field) => HasField field (FieldLens u v path s t) (FieldLens u v path' a b) where
   getField (FieldLens l) = FieldLens (l . G.field @field)
 
---
+
 instance (G.AsConstructor  (branch :: Symbol) s t a b) => HasField branch (The BranchPrism s t) (BranchPrism s t '[branch] a b) where
   getField _ = BranchPrism (G._Ctor @branch)
 
